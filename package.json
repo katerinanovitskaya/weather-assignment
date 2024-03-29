@@ -1,0 +1,14 @@
+{
+  "name": "weather-assignment",
+  "version": "1.0.0",
+  "description": "Weather Assignment",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "selenium-webdriver": "latest"
+  },
+  "author": "",
+  "license": "ISC"
+}

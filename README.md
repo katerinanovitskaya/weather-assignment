@@ -13,3 +13,16 @@ This project fetches weather data from the following sources:
    openweathermap.org
 3. Compare the temperature from the two sources and check for the variance
 4. Throw a custom exception if the variance exceeds a given threshold
+
+## Installation Instructions
+
+1. Install nodejs. On macOS, use `brew install node`. **Please note this code has been tested with node v21.7.1**
+2. Clone this git repo: `git clone https://github.com/katerinanovitskaya/weather-assignment.git`
+3. Install required nodejs packages: `npm install`
+
+## Running the project
+
+1. To run the project, type: `node main.js`
+
+
+`
