@@ -14,6 +14,15 @@ const owmAPIKey = "9fe9f79f2096b5eca0b384bda7cb7bb0";
 // Threshold for temperature variance
 const varianceThreshold = 1.0;
 
+// Custom exception extends Error object
+class VarianceError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'VARIANCE_EXCEEDED';
+    this.message = message;
+  }
+}
+
 // Description:
 //   This function gets the current temperature from accuweather.com
 //   The code uses Selenium to launch a web browser and enter the city name
@@ -111,6 +120,14 @@ async function main() {
               " deg F");
   console.log("Temperature via openweathermap.org: " + tempFromAPI +
               " deg F");
+
+  let variance = Math.abs(tempFromUI - tempFromAPI);
+  if (variance > varianceThreshold) {
+    throw new VarianceError("Temperature variance exceeded by " +
+                                variance + " deg F");
+  } else {
+    console.log("Variance within limits");
+  }
 }
 
 main();
