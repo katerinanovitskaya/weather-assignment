@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "selenium-webdriver": "latest"
+    "selenium-webdriver": "latest",
+    "node-rest-client" : "latest"
   },
   "author": "",
   "license": "ISC"

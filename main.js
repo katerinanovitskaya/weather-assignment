@@ -1,8 +1,18 @@
 // Import Selenium Webdriver
 const { Builder, Browser, By, Key, until } = require('selenium-webdriver')
+// Import REST client
+const restClient = require("node-rest-client").Client;
 
-// Change the following to search for another city
-const cityName = 'Austin,TX';
+// Change the following lines of code to update the location
+const searchCity = "Austin";
+const searchState = "TX";
+const searchCountry = "USA";
+
+// API Key for openweathermap.org
+const owmAPIKey = "9fe9f79f2096b5eca0b384bda7cb7bb0";
+
+// Threshold for temperature variance
+const varianceThreshold = 1.0;
 
 // Description:
 //   This function gets the current temperature from accuweather.com
@@ -19,6 +29,9 @@ async function getUITemp() {
 
   // Launch the Firefox web browser
   let driver = await new Builder().forBrowser(Browser.CHROME).build();
+
+  // Set search string to city,state
+  let cityName = searchCity + "," + searchState;
 
   try {
     // Retrieve the home page
@@ -51,12 +64,52 @@ async function getUITemp() {
   return parseInt(currentTemp, 10);
 }
 
+// Description:
+//   This function gets the current temperature from openweathermap.org
+//   via a REST API. The API to retrieve the temperature requires precise
+//   latitude and longitude coordinates. The code first calls a geocode
+//   API to convert the city to latitude and longitude and then calls
+//   the API to retrieve the current weather data.
+// Parameters:
+//   None
+// Return Value:
+//   Integer value of the current temperature for the given city in Fahrenheit
+//
+async function getTempFromAPI() {
+  var rc = new restClient();
+  var geoCodingRequest = "http://api.openweathermap.org/geo/1.0/direct?q=" +
+                         searchCity + "," + searchState + "," + searchCountry +
+                         "&limit=1&appid=" + owmAPIKey;
+
+  let geoCode = await new Promise((resolve, reject) => {
+    rc.get(geoCodingRequest, (data, response) => {
+      resolve(data);
+    });
+  });
+
+  var weatherRequest = "https://api.openweathermap.org/data/2.5/weather?lat=" +
+                       geoCode[0].lat + "&" + "lon=" + geoCode[0].lon +
+                       "&units=imperial&appid=" + owmAPIKey;
+
+  let weather = await new Promise((resolve, reject) => {
+    rc.get(weatherRequest, (data, response) => {
+      resolve(data);
+    });
+  });
+
+  return weather.main.temp;
+}
+
 // Main function
 async function main() {
   let tempFromUI = await getUITemp();
+  let tempFromAPI = await getTempFromAPI();
 
-  console.log("City: " + cityName);
+  console.log("City: " + searchCity + ", " + searchState +
+              ", " + searchCountry);
   console.log("Temperature via accuweather.com: " + tempFromUI +
+              " deg F");
+  console.log("Temperature via openweathermap.org: " + tempFromAPI +
               " deg F");
 }
 
