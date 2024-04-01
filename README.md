@@ -19,10 +19,8 @@ This project fetches weather data from the following sources:
 1. Install nodejs. On macOS, use `brew install node`. **Please note this code has been tested with node v21.7.1**
 2. Clone this git repo: `git clone https://github.com/katerinanovitskaya/weather-assignment.git`
 3. Install required nodejs packages: `npm install`
+4. Install Selenium WebDriver: `npm install selenium-webdriver`
 
 ## Running the project
 
 1. To run the project, type: `node main.js`
-
-
-`
