@@ -36,7 +36,7 @@ class VarianceError extends Error {
 async function getUITemp() {
   var currentTemp;
 
-  // Launch the Firefox web browser
+  // Launch the Chrome web browser
   let driver = await new Builder().forBrowser(Browser.CHROME).build();
 
   // Set search string to city,state
